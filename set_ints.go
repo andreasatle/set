@@ -1,4 +1,4 @@
-// Package set privides primitives for a simple set containing unsigned integers.
+// Package set provides primitives for a simple set containing unsigned integers.
 package set
 
 import (
@@ -14,6 +14,7 @@ type IntSet struct {
 	elem intSet // Map containing the elements in the set
 }
 
+// Create a new instance of IntSet
 func NewIntSet(ints ...int) *IntSet {
 	s := new(IntSet)
 	s.elem = make(intSet)
@@ -24,10 +25,12 @@ func NewIntSet(ints ...int) *IntSet {
 	return s
 }
 
+// Check if the set is empty
 func (s *IntSet) Empty() bool {
 	return s.Size() == 0
 }
 
+// Create a new copy of IntSet
 func (s *IntSet) Copy(in IntSet) {
 	s.Clear()
 	for key := range in.elem {
@@ -35,6 +38,7 @@ func (s *IntSet) Copy(in IntSet) {
 	}
 }
 
+// Create a IntSet from a slice of ints
 func FromIntSlice(slice []int) *IntSet {
 	s := NewIntSet()
 	for _, e := range slice {
@@ -43,6 +47,7 @@ func FromIntSlice(slice []int) *IntSet {
 	return s
 }
 
+// Convert the Set to a slice of ints
 func (s *IntSet) ToSlice() []int {
 	r := make([]int, 0, s.Size())
 
@@ -52,7 +57,7 @@ func (s *IntSet) ToSlice() []int {
 	return r
 }
 
-// Create a string with sorted contents of set
+// Create a string from the IntSet
 func (s *IntSet) ToString() string {
 
 	values := make([]int, 0, len(s.elem))
@@ -61,7 +66,6 @@ func (s *IntSet) ToString() string {
 		values = append(values, key)
 	}
 
-	//sort.Ints(values)
 	str := "{"
 
 	for i := 0; i < len(values)-1; i++ {
@@ -75,22 +79,22 @@ func (s *IntSet) ToString() string {
 	return str + "}"
 }
 
-// Remove all elements from set
+// Remove all elements from IntSet
 func (s *IntSet) Clear() {
 	s.elem = make(intSet)
 }
 
-// Get length of set
+// Get length of IntSet
 func (s *IntSet) Size() int {
 	return len(s.elem)
 }
 
-// Add element to set
+// Add element to IntSet
 func (s *IntSet) Add(e int) {
 	s.elem[e] = empty{}
 }
 
-// Remove element from set
+// Remove element from IntSet
 func (s *IntSet) Remove(e int) {
 	delete(s.elem, e)
 }
@@ -101,7 +105,7 @@ func (s *IntSet) Contains(e int) bool {
 	return flag
 }
 
-// Take (non-destructive) union of two sets
+// Take (non-destructive) union of two IntSets
 func (s *IntSet) Union(s2 *IntSet) *IntSet {
 	out := new(IntSet)
 	out.Clear()
@@ -117,7 +121,7 @@ func (s *IntSet) Union(s2 *IntSet) *IntSet {
 	return out
 }
 
-// Take (non-destructive) intersection of two sets
+// Take (non-destructive) intersection of two IntSets
 func (s *IntSet) Intersection(s2 *IntSet) *IntSet {
 	out := new(IntSet)
 	out.Clear()
@@ -131,7 +135,7 @@ func (s *IntSet) Intersection(s2 *IntSet) *IntSet {
 	return out
 }
 
-// Take (non-destructive) difference of two sets
+// Take (non-destructive) difference of two IntSets
 func (s *IntSet) Difference(s2 *IntSet) *IntSet {
 	out := new(IntSet)
 	out.Clear()

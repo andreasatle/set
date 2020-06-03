@@ -1,17 +1,18 @@
-// Package set privides primitives for a simple Runeset containing unsigned integers.
+// Package set provides primitives for a simple Runeset containing unsigned integers.
 package set
 
 // Rename map definition to a Runeset specific name
-type runeMap = map[rune]empty
+type runeSet = map[rune]empty
 
 // Definition of the RuneSet type
 type RuneSet struct {
-	elem runeMap // Map containing the elements in the RuneSet
+	elem runeSet // Map containing the elements in the RuneSet
 }
 
+// Create a new instance of RuneSet
 func NewRuneSet(runes ...rune) *RuneSet {
 	s := new(RuneSet)
-	s.elem = make(runeMap)
+	s.elem = make(runeSet)
 
 	for _, r := range runes {
 		s.Add(r)
@@ -19,10 +20,12 @@ func NewRuneSet(runes ...rune) *RuneSet {
 	return s
 }
 
+// Check if the set is empty
 func (s *RuneSet) Empty() bool {
 	return s.Size() == 0
 }
 
+// Create a new copy of RuneSet
 func (s *RuneSet) Copy(in RuneSet) {
 	s.Clear()
 	for key := range in.elem {
@@ -30,6 +33,7 @@ func (s *RuneSet) Copy(in RuneSet) {
 	}
 }
 
+// Create a RuneSet from a slice of runes
 func FromRuneSlice(slice []rune) *RuneSet {
 	s := NewRuneSet()
 	for _, e := range slice {
@@ -38,6 +42,7 @@ func FromRuneSlice(slice []rune) *RuneSet {
 	return s
 }
 
+// Convert the Set to a slice of runes
 func (s *RuneSet) ToSlice() []rune {
 	r := make([]rune, 0, s.Size())
 
@@ -47,7 +52,7 @@ func (s *RuneSet) ToSlice() []rune {
 	return r
 }
 
-// Create a string with sorted contents of Runeset
+// Create a string from the Runeset
 func (s *RuneSet) ToString() string {
 
 	values := make([]rune, 0, len(s.elem))
@@ -56,7 +61,6 @@ func (s *RuneSet) ToString() string {
 		values = append(values, key)
 	}
 
-	//sort.Ints(values)
 	str := "{"
 
 	for i := 0; i < len(values)-1; i++ {
@@ -70,12 +74,12 @@ func (s *RuneSet) ToString() string {
 	return str + "}"
 }
 
-// Remove all elements from Runeset
+// Remove all elements from RuneSet
 func (s *RuneSet) Clear() {
-	s.elem = make(runeMap)
+	s.elem = make(runeSet)
 }
 
-// Get length of Runeset
+// Get length of RuneSet
 func (s *RuneSet) Size() int {
 	return len(s.elem)
 }
@@ -85,7 +89,7 @@ func (s *RuneSet) Add(e rune) {
 	s.elem[e] = empty{}
 }
 
-// Remove element from Runeset
+// Remove element from RuneSet
 func (s *RuneSet) Remove(e rune) {
 	delete(s.elem, e)
 }
@@ -96,7 +100,7 @@ func (s *RuneSet) Contains(e rune) bool {
 	return flag
 }
 
-// Take (non-destructive) union of two Runesets
+// Take (non-destructive) union of two RuneSets
 func (s *RuneSet) Union(s2 *RuneSet) *RuneSet {
 	out := new(RuneSet)
 	out.Clear()
@@ -112,7 +116,7 @@ func (s *RuneSet) Union(s2 *RuneSet) *RuneSet {
 	return out
 }
 
-// Take (non-destructive) intersection of two Runesets
+// Take (non-destructive) intersection of two RuneSets
 func (s *RuneSet) Intersection(s2 *RuneSet) *RuneSet {
 	out := new(RuneSet)
 	out.Clear()
@@ -126,7 +130,7 @@ func (s *RuneSet) Intersection(s2 *RuneSet) *RuneSet {
 	return out
 }
 
-// Take (non-destructive) difference of two Runesets
+// Take (non-destructive) difference of two RuneSets
 func (s *RuneSet) Difference(s2 *RuneSet) *RuneSet {
 	out := new(RuneSet)
 	out.Clear()
